@@ -24,12 +24,15 @@ app.addHook("onRequest", (request, reply, done) => {
   done();
 });
 
-// mongodb+srv://luizinho:searom@devclusterfree.ahvmaf1.mongodb.net/iassis
+// mongodb+srv://luizinho:searom@devclusterfree.ahvmaf1.mongodb.net/redacoes
 // Conectar ao MongoDB
-mongoose.connect("mongodb://localhost:27017/iassis", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb://localhost:27017/redacoes",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 // Criar novo usuário
 app.post("/user/new", async (request, reply) => {

@@ -13,12 +13,18 @@ function persistUser(user, { passwordFallback, usernameFallback } = {}) {
       return;
     }
 
-    const normalizedUsername = (user?.nome ?? usernameFallback ?? '').toLowerCase();
+    const normalizedUsername = (
+      user?.nome ??
+      user?.username ??
+      usernameFallback ??
+      ''
+    ).toLowerCase();
 
     const payload = {
       ...user,
       passwordFallback,
       normalizedUsername,
+      avatarUrl: user?.avatarUrl ?? user?.credenciais?.picture ?? null,
       storedAt: new Date().toISOString(),
     };
 

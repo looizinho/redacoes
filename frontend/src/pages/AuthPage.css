@@ -145,6 +145,34 @@
   border: 1px solid color-mix(in srgb, var(--md-sys-color-error) 40%, transparent);
 }
 
+.auth-provider-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 65%, transparent);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: color-mix(in srgb, var(--md-sys-color-outline) 55%, transparent);
+}
+
+.auth-google-button {
+  display: flex;
+  justify-content: center;
+}
+
 .auth-footer {
   display: flex;
   align-items: center;

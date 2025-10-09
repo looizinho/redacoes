@@ -124,6 +124,69 @@ body {
   gap: 1.25rem;
 }
 
+.nav-profile-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: none;
+  background: none;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.nav-profile-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--md-sys-color-primary) 45%, transparent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.nav-profile-button::after {
+  display: none;
+}
+
+.nav-profile-avatar,
+.nav-profile-fallback {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--md-sys-color-outline) 45%, transparent);
+}
+
+.nav-profile-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: color-mix(in srgb, var(--md-sys-color-primary) 22%, transparent);
+  color: var(--md-sys-color-on-primary);
+}
+
+.nav-profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+
+.nav-profile-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.nav-profile-action {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 55%, transparent);
+}
+
 .nav-link {
   color: color-mix(in srgb, var(--md-sys-color-on-surface) 72%, transparent);
   text-decoration: none;

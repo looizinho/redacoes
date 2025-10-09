@@ -1,4 +1,9 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ?? 'http://10.203.223.12:4000';
+const fallbackBaseUrl =
+  typeof window === 'undefined'
+    ? 'http://127.0.0.1:4000'
+    : `${window.location.protocol}//${window.location.hostname}:4000`;
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ?? fallbackBaseUrl;
 
 async function apiRequest(path, { method = 'GET', headers, body, ...rest } = {}) {
   const endpoint = `${API_BASE_URL}${path}`;

@@ -1,9 +1,0 @@
-{
-  "chatgpt.openOnStartup": false,
-  "mdb.presetConnections": [
-    {
-      "name": "Local",
-      "connectionString": "mongodb://localhost:27017"
-    }
-  ]
-}

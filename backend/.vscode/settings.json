@@ -1,0 +1,12 @@
+{
+  "mdb.presetConnections": [
+    {
+      "name": "Preset Connection",
+      "connectionString": "mongodb://localhost:27017"
+    },
+    {
+      "name": "Atlas",
+      "connectionString": "mongodb+srv://luizinho:searom@devclusterfree.ahvmaf1.mongodb.net/iassis"
+    }
+  ]
+}

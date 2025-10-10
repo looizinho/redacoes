@@ -9,12 +9,16 @@ import Redacao from "./models/Redacao.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.join(__dirname, ".env.local") });
+dotenv.config({ path: path.join(__dirname, ".env.local"), override: true });
 
-const mongoUrl = process.env.MONGODB_URL;
+if (process.env.MONGODB_URL && !process.env.MONGODB_URI) {
+  process.env.MONGODB_URI = process.env.MONGODB_URL;
+}
+
+const mongoUrl = process.env.MONGODB_URL ?? process.env.MONGODB_URI;
 
 if (!mongoUrl) {
-  throw new Error("Variável de ambiente MONGODB_URL não está definida.");
+  throw new Error("Variável de ambiente MONGODB_URL ou MONGODB_URI não está definida.");
 }
 
 const app = Fastify({ logger: true });

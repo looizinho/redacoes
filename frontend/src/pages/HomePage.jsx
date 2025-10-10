@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useId, useMemo, useState } from "react";
 import "./HomePage.css";
-import logo from "../logo.png";
+import logo from "../assets/logos/logo-v2.svg";
 import { clearStoredUser, readCurrentUser, STORAGE_KEY } from "../services/authStorage";
 
 function HomePage() {
@@ -80,8 +80,8 @@ function HomePage() {
 				<div className="app-brand">
 					<img src={logo} className="app-logo" alt="Material 3 logo" />
 					<div className="brand-copy">
-						<p className="title-large">Plataforma de Redações</p>
-						<p className="label-medium">Componentes prontos para produção</p>
+						<p className="title-large">Plataforma de Correção de Redações</p>
+						<p className="label-medium">Sistema completo de correção e gestão de redações escolares</p>
 					</div>
 				</div>
 				<nav className="app-nav" aria-label="Seções principais">
@@ -94,7 +94,7 @@ function HomePage() {
 							Dashboard
 						</Link>
 					)}
-					<Link to="/redacao" className="nav-link label-large">Minhas Redações</Link>
+					{/* <Link to="/redacao/nova" className="nav-link label-large">Minhas Redações</Link> */}
 					{currentUser ? (
 						<button
 							type="button"
@@ -131,38 +131,36 @@ function HomePage() {
 					aria-labelledby={heroTitleId}
 				>
 					<div className="hero-copy">
-						<p className="label-large highlight">Material 3 for Web</p>
+						<p className="label-large highlight">Correção de Redações ENEM e UERJ</p>
 						<h1 id={heroTitleId} className="display-small">
-							Crie experiências responsivas com Material Web Components
+							Gerencie e corrija redações com eficiência e tecnologia
 						</h1>
 						<p className="body-large on-surface-variant">
-							Utilize tokens dinâmicos, tipografia escalável e componentes
-							acessíveis para construir produtos consistentes em todas as
-							plataformas.
+							Uma plataforma integrada para colégios, professores e alunos. Envie, corrija e acompanhe o desempenho dos estudantes de forma prática e centralizada.
 						</p>
 						<div className="hero-actions">
 							<a
 								className="cta-button cta-button--filled"
 								href={`#${destaquesSectionId}`}
 							>
-								Explorar biblioteca
+								Ver funcionalidades
 							</a>
 							<a
 								className="cta-button cta-button--tonal"
 								href={`#${guiaSectionId}`}
 							>
-								Ver exemplos
+								Saiba mais
 							</a>
-							<Link className="cta-button cta-button--outline" to="/redacao">
-								Ir para a Redação
+							<Link className="cta-button cta-button--outline" to="/redacao/lista">
+								Acessar redações
 							</Link>
 						</div>
 						<div className="hero-meta">
 							<span className="caption">
-								Compatível com Material Theme Builder
+								Correção manual e com apoio de IA
 							</span>
-							<span className="caption">Inclui suporte a Dark Mode</span>
-							<span className="caption">Baseado em web components</span>
+							<span className="caption">Suporte completo para professores e coordenadores</span>
+							<span className="caption">Controle e histórico de desempenho dos alunos</span>
 						</div>
 					</div>
 					<div className="hero-visual" aria-hidden="true">
@@ -192,7 +190,7 @@ function HomePage() {
 				>
 					<div className="section-heading">
 						<h2 id={highlightsTitleId} className="title-large">
-							Componentes em destaque
+							Recursos principais
 						</h2>
 						<p className="body-medium on-surface-variant">
 							Aplique padrões prontos para formulários, cards e navegação com o
@@ -201,29 +199,27 @@ function HomePage() {
 					</div>
 					<div className="card-grid">
 						<article className="feature-card">
-							<h3 className="title-medium">Tema dinâmico</h3>
+							<h3 className="title-medium">Correção automatizada</h3>
 							<p className="body-medium">
-								Ajuste cores automaticamente para diferentes identidades visuais
-								e níveis de contraste.
+								Aproveite inteligência artificial para gerar correções preliminares que os professores podem revisar.
 							</p>
-							<button type="button">Personalizar</button>
+							<button type="button">Ativar IA</button>
 						</article>
 
 						<article className="feature-card">
-							<h3 className="title-medium">Interações suaves</h3>
+							<h3 className="title-medium">Gestão simplificada</h3>
 							<p className="body-medium">
-								Componentes com estados visuais refinados e animações que
-								comunicam hierarquia e intenção.
+								Monitore prazos, turmas e status das correções em um painel intuitivo.
 							</p>
-							<button type="button">Ver catálogo</button>
+							<button type="button">Abrir painel</button>
 						</article>
 
 						<article className="feature-card">
-							<h3 className="title-medium">Layout responsivo</h3>
+							<h3 className="title-medium">Acesso flexível</h3>
 							<p className="body-medium">
-								Grade fluida e tipografia adaptável para qualquer dispositivo.
+								Alunos e professores podem acessar via web, dispositivos móveis e tablets.
 							</p>
-							<button type="button">Criar layout</button>
+							<button type="button">Acessar turma</button>
 						</article>
 					</div>
 				</section>
@@ -235,7 +231,7 @@ function HomePage() {
 				>
 					<div className="section-heading">
 						<h2 id={guidelinesTitleId} className="title-large">
-							Guias essenciais
+							Como funciona
 						</h2>
 						<p className="body-medium on-surface-variant">
 							Siga boas práticas de design e desenvolvimento para acelerar o seu
@@ -244,28 +240,25 @@ function HomePage() {
 					</div>
 					<div className="guideline-list">
 						<article className="guideline-item">
-							<h3 className="title-medium">Tipografia adaptativa</h3>
+							<h3 className="title-medium">Para coordenadores</h3>
 							<p className="body-medium on-surface-variant">
-								Defina escalas e pesos que mantém legibilidade em experiências
-								móveis e desktop.
+								Cadastre turmas, defina prazos e atribua corretores de forma organizada.
 							</p>
-							<button type="button">Ver recomendações</button>
+							<button type="button">Ver painel do coordenador</button>
 						</article>
 						<article className="guideline-item">
-							<h3 className="title-medium">Elevação e superfícies</h3>
+							<h3 className="title-medium">Para professores</h3>
 							<p className="body-medium on-surface-variant">
-								Utilize camadas, sombras e bordas suaves para destacar elementos
-								chave sem perder simplicidade.
+								Corrija, revise e acompanhe o progresso dos alunos com feedback detalhado.
 							</p>
-							<button type="button">Estilos de superfície</button>
+							<button type="button">Ver painel do professor</button>
 						</article>
 						<article className="guideline-item">
-							<h3 className="title-medium">Acessibilidade</h3>
+							<h3 className="title-medium">Para alunos</h3>
 							<p className="body-medium on-surface-variant">
-								Garanta contraste, navegação por teclado e suporte a leitores de
-								tela em todos os fluxos.
+								Envie suas redações digitadas ou por foto e acompanhe suas notas e comentários.
 							</p>
-							<button type="button">Checklist de acessibilidade</button>
+							<button type="button">Ver painel do aluno</button>
 						</article>
 					</div>
 				</section>
@@ -277,11 +270,10 @@ function HomePage() {
 				>
 					<div className="section-heading">
 						<h2 id={newsletterTitleId} className="title-large">
-							Receba atualizações
+							Novidades e atualizações
 						</h2>
 						<p className="body-medium on-surface-variant">
-							Inscreva-se e receba novidades sobre componentes, tokens e
-							exemplos de uso.
+							Assine para receber novidades sobre o sistema, novas funcionalidades e integração com IA.
 						</p>
 					</div>
 					<form className="newsletter-form">
@@ -294,7 +286,7 @@ function HomePage() {
 								required
 							/>
 						</label>
-						<button type="submit">Assinar</button>
+						<button type="submit">Inscrever</button>
 					</form>
 				</section>
 			</main>
@@ -304,10 +296,9 @@ function HomePage() {
 					© {new Date().getFullYear()} WOOW interativa.
 				</p>
 				<div className="footer-links">
-					<a href={`#${heroSectionId}`}>Documentação</a>
-					<a href={`#${newsletterSectionId}`}>Suporte</a>
-					<Link to="/redacao">Redação</Link>
-					<Link to="/login">Entrar</Link>
+					<a href={`#${heroSectionId}`}>Termos de uso</a>
+					<a href={`#${newsletterSectionId}`}>Contato</a>
+					<Link to="/login">Acessar conta</Link>
 				</div>
 			</footer>
 		</div>

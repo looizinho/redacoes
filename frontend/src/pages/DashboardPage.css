@@ -125,6 +125,18 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.dashboard-card--inverted {
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--md-sys-color-primary) 90%, var(--md-sys-color-primary-container) 10%),
+    color-mix(in srgb, var(--md-sys-color-primary) 80%, var(--md-sys-color-surface) 20%)
+  );
+  color: var(--md-sys-color-on-primary);
+  box-shadow:
+    0 12px 22px color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent),
+    0 5px 16px color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
+}
+
 .dashboard-card h3 {
   margin: 0;
   font-size: 1.25rem;
@@ -142,6 +154,16 @@
   box-shadow:
     0 16px 28px color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent),
     0 6px 18px color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+
+.dashboard-card--inverted p {
+  color: color-mix(in srgb, var(--md-sys-color-on-primary) 85%, transparent);
+}
+
+.dashboard-card--inverted:hover {
+  box-shadow:
+    0 20px 34px color-mix(in srgb, var(--md-sys-color-primary) 38%, transparent),
+    0 8px 20px color-mix(in srgb, var(--md-sys-color-primary) 18%, transparent);
 }
 
 @media (max-width: 640px) {

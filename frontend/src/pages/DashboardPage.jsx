@@ -123,7 +123,11 @@ function DashboardPage() {
         </section>
 
         <section className="dashboard-actions">
-          <Link className="dashboard-card" to="/redacao">
+          <Link className="dashboard-card dashboard-card--inverted" to="/redacao/nova">
+            <h3>Nova Redação</h3>
+            <p>Comece uma nova redação e envie para correção.</p>
+          </Link>
+          <Link className="dashboard-card" to="/redacao/lista">
             <h3>Minhas Redações</h3>
             <p>Gerencie e acompanhe o status das suas redações enviadas.</p>
           </Link>

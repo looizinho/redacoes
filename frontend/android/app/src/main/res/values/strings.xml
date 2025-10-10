@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">MD3</string>
-    <string name="title_activity_main">MD3</string>
-    <string name="package_name">fun.woow.materialdesign4</string>
-    <string name="custom_url_scheme">fun.woow.materialdesign4</string>
-</resources>

@@ -1,7 +1,21 @@
 import Fastify from "fastify";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import User from "./models/User.js";
 import Redacao from "./models/Redacao.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, ".env.local") });
+
+const mongoUrl = process.env.MONGODB_URL;
+
+if (!mongoUrl) {
+  throw new Error("Variável de ambiente MONGODB_URL não está definida.");
+}
 
 const app = Fastify({ logger: true });
 
@@ -27,7 +41,7 @@ app.addHook("onRequest", (request, reply, done) => {
 // mongodb+srv://luizinho:searom@devclusterfree.ahvmaf1.mongodb.net/redacoes
 // Conectar ao MongoDB
 mongoose.connect(
-  "mongodb://localhost:27017/redacoes",
+  mongoUrl,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

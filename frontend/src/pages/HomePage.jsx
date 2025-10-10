@@ -89,6 +89,11 @@ function HomePage() {
 					{/* <a href={`#${destaquesSectionId}`} className="nav-link label-large">Componentes</a> */}
 					{/* <a href={`#${guiaSectionId}`} className="nav-link l abel-large">Guias</a> */}
 					{/* <a href={`#${newsletterSectionId}`} className="nav-link label-large">Atualizações</a> */}
+					{currentUser && (
+						<Link to="/dashboard" className="nav-link label-large">
+							Dashboard
+						</Link>
+					)}
 					<Link to="/redacao" className="nav-link label-large">Minhas Redações</Link>
 					{currentUser ? (
 						<button
@@ -296,7 +301,7 @@ function HomePage() {
 
 			<footer className="app-footer">
 				<p className="body-medium">
-					© {new Date().getFullYear()} Material 3 Web.
+					© {new Date().getFullYear()} WOOW interativa.
 				</p>
 				<div className="footer-links">
 					<a href={`#${heroSectionId}`}>Documentação</a>

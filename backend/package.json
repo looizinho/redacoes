@@ -1,5 +1,5 @@
 {
-  "name": "iassis-fastify",
+  "name": "redacoes-fastify",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +14,8 @@
   "type": "module",
   "dependencies": {
     "fastify": "^5.6.1",
-    "mongoose": "^8.18.2"
+    "mongoose": "^8.18.2",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

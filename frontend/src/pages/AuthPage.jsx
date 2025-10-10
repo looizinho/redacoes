@@ -156,7 +156,7 @@ function AuthPage() {
     });
     setFormData(initialFormState);
 
-    navigate('/', { replace: true });
+    navigate('/dashboard', { replace: true });
   };
 
   const handleGoogleCredential = useCallback(
@@ -234,7 +234,7 @@ function AuthPage() {
           }.`,
         });
         setFormData(initialFormState);
-        navigate('/', { replace: true });
+        navigate('/dashboard', { replace: true });
       } catch (error) {
         console.error('Falha no login com Google', error);
         setStatus({

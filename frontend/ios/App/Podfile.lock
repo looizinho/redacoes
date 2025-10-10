@@ -12,26 +12,26 @@ PODS:
     - Capacitor
 
 DEPENDENCIES:
-  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
-  - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
-  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
-  - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
-  - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
-  - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
+  - "Capacitor (from `../../node_modules/.pnpm/@capacitor+ios@7.4.3_@capacitor+core@7.4.3/node_modules/@capacitor/ios`)"
+  - "CapacitorApp (from `../../node_modules/.pnpm/@capacitor+app@7.1.0_@capacitor+core@7.4.3/node_modules/@capacitor/app`)"
+  - "CapacitorCordova (from `../../node_modules/.pnpm/@capacitor+ios@7.4.3_@capacitor+core@7.4.3/node_modules/@capacitor/ios`)"
+  - "CapacitorHaptics (from `../../node_modules/.pnpm/@capacitor+haptics@7.0.2_@capacitor+core@7.4.3/node_modules/@capacitor/haptics`)"
+  - "CapacitorKeyboard (from `../../node_modules/.pnpm/@capacitor+keyboard@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/keyboard`)"
+  - "CapacitorStatusBar (from `../../node_modules/.pnpm/@capacitor+status-bar@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/status-bar`)"
 
 EXTERNAL SOURCES:
   Capacitor:
-    :path: "../../node_modules/@capacitor/ios"
+    :path: "../../node_modules/.pnpm/@capacitor+ios@7.4.3_@capacitor+core@7.4.3/node_modules/@capacitor/ios"
   CapacitorApp:
-    :path: "../../node_modules/@capacitor/app"
+    :path: "../../node_modules/.pnpm/@capacitor+app@7.1.0_@capacitor+core@7.4.3/node_modules/@capacitor/app"
   CapacitorCordova:
-    :path: "../../node_modules/@capacitor/ios"
+    :path: "../../node_modules/.pnpm/@capacitor+ios@7.4.3_@capacitor+core@7.4.3/node_modules/@capacitor/ios"
   CapacitorHaptics:
-    :path: "../../node_modules/@capacitor/haptics"
+    :path: "../../node_modules/.pnpm/@capacitor+haptics@7.0.2_@capacitor+core@7.4.3/node_modules/@capacitor/haptics"
   CapacitorKeyboard:
-    :path: "../../node_modules/@capacitor/keyboard"
+    :path: "../../node_modules/.pnpm/@capacitor+keyboard@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/keyboard"
   CapacitorStatusBar:
-    :path: "../../node_modules/@capacitor/status-bar"
+    :path: "../../node_modules/.pnpm/@capacitor+status-bar@7.0.3_@capacitor+core@7.4.3/node_modules/@capacitor/status-bar"
 
 SPEC CHECKSUMS:
   Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
@@ -41,6 +41,6 @@ SPEC CHECKSUMS:
   CapacitorKeyboard: 62f36104f26d53d8b3a2a43f2a69fe714f1777d5
   CapacitorStatusBar: 0659ddc7b1713764a05831463d215b177a15d054
 
-PODFILE CHECKSUM: f8c95c38f42283ff8d7c6bf6fa1435ecdce85ae9
+PODFILE CHECKSUM: 8bd0d9c820121f1afdd77c0f07183ee4bdcccf29
 
 COCOAPODS: 1.16.2

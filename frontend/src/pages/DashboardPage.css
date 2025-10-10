@@ -1,0 +1,165 @@
+.dashboard-page {
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  background:
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent), transparent 55%),
+    radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--md-sys-color-secondary) 18%, transparent), transparent 50%),
+    linear-gradient(165deg, color-mix(in srgb, var(--md-sys-color-surface) 98%, transparent), color-mix(in srgb, var(--md-sys-color-surface-container) 60%, transparent));
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  background-color: color-mix(in srgb, var(--md-sys-color-surface) 85%, transparent);
+  border-radius: 28px;
+  box-shadow:
+    0 18px 35px color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent),
+    0 4px 16px color-mix(in srgb, var(--md-sys-color-primary) 6%, transparent);
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.dashboard-avatar {
+  width: clamp(64px, 7vw, 88px);
+  height: clamp(64px, 7vw, 88px);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dashboard-avatar--fallback {
+  display: grid;
+  place-items: center;
+  background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 80%, transparent);
+  color: var(--md-sys-color-on-primary-container);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dashboard-user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dashboard-greeting {
+  margin: 0;
+  font-size: 1rem;
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 70%, transparent);
+}
+
+.dashboard-username {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+}
+
+.dashboard-logout {
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--md-sys-color-secondary) 92%, var(--md-sys-color-secondary-container) 8%),
+    var(--md-sys-color-secondary)
+  );
+  color: var(--md-sys-color-on-secondary);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-logout:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--md-sys-color-secondary) 22%, transparent);
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.dashboard-welcome h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.75rem, 3vw, 2.2rem);
+  font-weight: 600;
+}
+
+.dashboard-welcome p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 72%, transparent);
+}
+
+.dashboard-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(1rem, 3vw, 1.75rem);
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-radius: 24px;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--md-sys-color-surface-container-highest) 78%, transparent);
+  color: inherit;
+  box-shadow:
+    0 8px 18px color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent),
+    0 3px 12px color-mix(in srgb, var(--md-sys-color-primary) 4%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dashboard-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 70%, transparent);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 16px 28px color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent),
+    0 6px 18px color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+
+@media (max-width: 640px) {
+  .dashboard-page {
+    padding: 1.5rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-logout {
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .dashboard-actions {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,10 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './RedacaoPage.css';
 import { apiRequest } from '../services/api';
 import { readCurrentUser, STORAGE_KEY } from '../services/authStorage';
 
-function RedacaoPage() {
+const DEFAULT_PROFESSOR_ID = '68e8b75f0ccde9fbb554f234';
+
+const extractProfessorLabel = (value) => {
+  if (!value) {
+    return '';
+  }
+
+  if (typeof value === 'string') {
+    return value === DEFAULT_PROFESSOR_ID ? '' : value;
+  }
+
+  if (typeof value === 'object') {
+    const label = value.nome ?? value.username ?? value._id ?? value.id ?? '';
+    return label === DEFAULT_PROFESSOR_ID ? '' : label;
+  }
+
+  return '';
+};
+
+function RedacaoPage({ mode = 'create' }) {
+  const isEditMode = mode === 'edit';
+  const { id: routeId } = useParams();
+  const redacaoId = isEditMode ? routeId ?? null : null;
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const commentsStoreRef = useRef(new Map());
@@ -14,6 +36,9 @@ function RedacaoPage() {
   const [isReady, setIsReady] = useState(false);
   const [message, setMessage] = useState('');
   const [saving, setSaving] = useState(false);
+  const [loadingExisting, setLoadingExisting] = useState(isEditMode);
+  const [initialDataReady, setInitialDataReady] = useState(!isEditMode);
+  const [initialEditorData, setInitialEditorData] = useState(null);
   const [metadata, setMetadata] = useState({
     titulo: '',
     turma: '',
@@ -63,18 +88,87 @@ function RedacaoPage() {
   }, []);
 
   useEffect(() => {
+    if (!currentUser || isEditMode) {
+      return;
+    }
+
     setMetadata((prev) => ({
       ...prev,
       professor:
         prev.professor || (currentUser?.tipo === 'professor' ? currentUser?.nome ?? '' : prev.professor),
     }));
-  }, [currentUser]);
+  }, [currentUser, isEditMode]);
+
+  useEffect(() => {
+    if (!isEditMode) {
+      return;
+    }
+
+    if (!redacaoId) {
+      setMessage('Redação não encontrada. Volte para a lista e selecione novamente.');
+      setInitialDataReady(false);
+      setLoadingExisting(false);
+      return;
+    }
+
+    let active = true;
+
+    const fetchExistingRedacao = async () => {
+      setLoadingExisting(true);
+      setMessage('');
+
+      try {
+        const response = await apiRequest(`/redacao/${redacaoId}`);
+        if (!active) {
+          return;
+        }
+
+        const commentsSnapshot = Array.isArray(response?.data?.comments)
+          ? response.data.comments
+          : [];
+
+        commentsStoreRef.current = new Map(
+          commentsSnapshot.map(({ target, comments }) => [target, comments ?? []])
+        );
+
+        setMetadata((prev) => ({
+          ...prev,
+          titulo: response?.titulo ?? prev.titulo ?? '',
+          turma: response?.turma ?? prev.turma ?? '',
+          professor: extractProfessorLabel(response?.professor) || prev.professor || '',
+          status: response?.status ?? prev.status ?? 'Rascunho',
+        }));
+
+        setInitialEditorData(response?.data?.editor ?? null);
+      } catch (error) {
+        console.error('Falha ao carregar redação existente', error);
+        if (active) {
+          setMessage('Não foi possível carregar esta redação. Tente novamente mais tarde.');
+        }
+      } finally {
+        if (active) {
+          setInitialDataReady(true);
+          setLoadingExisting(false);
+        }
+      }
+    };
+
+    fetchExistingRedacao();
+
+    return () => {
+      active = false;
+    };
+  }, [isEditMode, redacaoId]);
 
   useEffect(() => {
     let isMounted = true;
 
     const loadEditor = async () => {
       if (editorRef.current || !editorContainerRef.current) {
+        return;
+      }
+
+      if (isEditMode && !initialDataReady) {
         return;
       }
 
@@ -402,6 +496,7 @@ function RedacaoPage() {
           placeholder: 'Comece a escrever a sua redação...',
           autofocus: true,
           defaultBlock: 'paragraph',
+          ...(initialEditorData ? { data: initialEditorData } : {}),
           tools: {
             header: {
               class: Header,
@@ -484,7 +579,7 @@ function RedacaoPage() {
         editorContainerRef.current.replaceChildren();
       }
     };
-  }, []);
+  }, [initialDataReady, initialEditorData, isEditMode]);
 
   const handleSave = async () => {
     if (!editorRef.current) {
@@ -494,6 +589,18 @@ function RedacaoPage() {
     if (!currentUser?._id) {
       setMessage('Faça login para enviar a redação.');
       return;
+    }
+
+    if (isEditMode) {
+      if (!redacaoId) {
+        setMessage('Redação não encontrada. Volte para a lista e selecione novamente.');
+        return;
+      }
+
+      if (!initialDataReady || loadingExisting) {
+        setMessage('Aguarde carregar os dados da redação antes de salvar.');
+        return;
+      }
     }
 
     setSaving(true);
@@ -507,7 +614,7 @@ function RedacaoPage() {
 
       const payload = sanitizePayload({
         aluno: currentUser._id,
-        professor: metadata.professor,
+        professor: DEFAULT_PROFESSOR_ID,
         turma: metadata.turma,
         titulo: metadata.titulo || 'Redação sem título',
         status: metadata.status || 'Rascunho',
@@ -518,16 +625,40 @@ function RedacaoPage() {
         },
       });
 
-      const response = await apiRequest('/redacao/new', {
-        method: 'POST',
+      const endpoint = isEditMode ? `/redacao/${redacaoId}` : '/redacao/new';
+      const method = isEditMode ? 'PUT' : 'POST';
+
+      const response = await apiRequest(endpoint, {
+        method,
         body: payload,
       });
 
       console.info('Redação registrada', response);
-      setMessage('Redação enviada ao servidor com sucesso.');
+
+      if (isEditMode) {
+        setMessage('Redação atualizada com sucesso.');
+
+        if (response) {
+          setMetadata((prev) => ({
+            ...prev,
+            titulo: response?.titulo ?? prev.titulo,
+            turma: response?.turma ?? prev.turma,
+            status: response?.status ?? prev.status,
+            professor: extractProfessorLabel(response?.professor) || prev.professor,
+          }));
+
+          if (Array.isArray(response?.data?.comments)) {
+            commentsStoreRef.current = new Map(
+              response.data.comments.map(({ target, comments }) => [target, comments ?? []])
+            );
+          }
+        }
+      } else {
+        setMessage('Redação enviada ao servidor com sucesso.');
+      }
     } catch (error) {
       console.error('Falha ao salvar a redação', error);
-      setMessage('Não foi possível enviar a redação. Tente novamente.');
+      setMessage(isEditMode ? 'Não foi possível atualizar a redação. Tente novamente.' : 'Não foi possível enviar a redação. Tente novamente.');
     } finally {
       setSaving(false);
     }
@@ -537,11 +668,11 @@ function RedacaoPage() {
     <div className="redacao-page">
       <header className="redacao-header" role="banner">
         <div className="redacao-header__copy">
-          <h1>Redação</h1>
+          <h1>{isEditMode ? 'Editar Redação' : 'Redação'}</h1>
           <p>Escreva e organize suas ideias em um editor estruturado.</p>
         </div>
-        <Link to="/" className="link-voltar">
-          ← Voltar para a home
+        <Link to="/dashboard" className="link-voltar">
+          ← Voltar
         </Link>
       </header>
 
@@ -562,9 +693,14 @@ function RedacaoPage() {
             <button
               type="button"
               onClick={handleSave}
-              disabled={!isReady || saving || !currentUser?._id}
+              disabled={
+                !isReady ||
+                saving ||
+                !currentUser?._id ||
+                (isEditMode && (!initialDataReady || loadingExisting))
+              }
             >
-              {saving ? 'Salvando...' : 'Enviar redação'}
+              {saving ? 'Salvando...' : isEditMode ? 'Atualizar redação' : 'Enviar redação'}
             </button>
           </header>
 

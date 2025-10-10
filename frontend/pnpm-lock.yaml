@@ -35,9 +35,6 @@ importers:
       '@dataconnect/generated':
         specifier: file:src/dataconnect-generated
         version: file:src/dataconnect-generated(@tanstack-query-firebase/react@2.1.1(@tanstack/react-query@5.90.2(react@19.2.0))(firebase@12.3.0))(firebase@12.3.0)
-      '@editorjs/checklist':
-        specifier: ^1.6.0
-        version: 1.6.0
       '@editorjs/editorjs':
         specifier: ^2.31.0
         version: 2.31.0
@@ -989,9 +986,6 @@ packages:
 
   '@editorjs/caret@1.0.3':
     resolution: {integrity: sha512-VmgwQJZgL/LQjk049JunzRV1YCa0vDi+BNEpbDmr5cp3lGZllq9QQFO1eI71ZPzvFVn3vvhb+eOif4sAEyGgbw==}
-
-  '@editorjs/checklist@1.6.0':
-    resolution: {integrity: sha512-hRNP36DInr73mSK3noHBQeoQb7DA12ANfqTXufEkTgQzx+k4mRJ0HdeGukTIR4JbwjHJ9ecUBnnQqIEGnxCFEg==}
 
   '@editorjs/dom@1.0.1':
     resolution: {integrity: sha512-yLO+86MYOIUr1Jl7SQw23SYT84ggv6aJW0EIRsI3NTHYgnQzmK7Bt2n5ZFupQlB0GJqmKqA5tCue3NKQb+o7Pw==}
@@ -7509,10 +7503,6 @@ snapshots:
   '@editorjs/caret@1.0.3':
     dependencies:
       '@editorjs/dom': 1.0.1
-
-  '@editorjs/checklist@1.6.0':
-    dependencies:
-      '@codexteam/icons': 0.3.3
 
   '@editorjs/dom@1.0.1':
     dependencies:

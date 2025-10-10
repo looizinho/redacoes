@@ -99,6 +99,58 @@ app.post("/redacao/new", async (request, reply) => {
   }
 });
 
+// Buscar redação por ID
+app.get("/redacao/:id", async (request, reply) => {
+  const { id } = request.params;
+
+  try {
+    const redacao = await Redacao.findById(id);
+
+    if (!redacao) {
+      reply.code(404).send({ error: "Redação não encontrada." });
+      return;
+    }
+
+    reply.send(redacao);
+  } catch (err) {
+    reply.code(500).send({ error: "Erro ao buscar redação." });
+  }
+});
+
+// Atualizar redação existente
+app.put("/redacao/:id", async (request, reply) => {
+  const { id } = request.params;
+  const { aluno, professor, turma, titulo, status, data } = request.body ?? {};
+
+  const updatePayload = Object.fromEntries(
+    Object.entries({
+      aluno,
+      professor,
+      turma,
+      titulo,
+      status,
+      data,
+      timestamp: new Date(),
+    }).filter(([, value]) => value !== undefined)
+  );
+
+  try {
+    const redacaoAtualizada = await Redacao.findByIdAndUpdate(id, updatePayload, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!redacaoAtualizada) {
+      reply.code(404).send({ error: "Redação não encontrada." });
+      return;
+    }
+
+    reply.send(redacaoAtualizada);
+  } catch (err) {
+    reply.code(500).send({ error: "Erro ao atualizar redação." });
+  }
+});
+
 // Listar usuários
 app.get("/users", async (request, reply) => {
   try {

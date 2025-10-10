@@ -12,7 +12,6 @@
     "@capacitor/keyboard": "7.0.3",
     "@capacitor/status-bar": "7.0.3",
     "@dataconnect/generated": "file:src/dataconnect-generated",
-    "@editorjs/checklist": "^1.6.0",
     "@editorjs/editorjs": "^2.31.0",
     "@editorjs/header": "^2.8.8",
     "@editorjs/list": "^2.0.8",
@@ -55,7 +54,7 @@
     ]
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

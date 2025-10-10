@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import RedacaoPage from './pages/RedacaoPage';
+import RedacaoListPage from './pages/RedacaoListPage';
+import RedacaoDisplayPage from './pages/RedacaoDisplayPage';
 import DashboardPage from './pages/DashboardPage';
 
 function App() {
@@ -11,6 +13,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/redacao/nova" element={<RedacaoPage />} />
+        <Route path="/redacao/editar/:id" element={<RedacaoPage mode="edit" />} />
+        <Route path="/redacao/exibir/:id" element={<RedacaoDisplayPage />} />
+        <Route path="/redacao/lista" element={<RedacaoListPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>

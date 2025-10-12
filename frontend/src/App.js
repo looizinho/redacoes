@@ -5,6 +5,7 @@ import RedacaoPage from './pages/RedacaoPage';
 import RedacaoListPage from './pages/RedacaoListPage';
 import RedacaoDisplayPage from './pages/RedacaoDisplayPage';
 import DashboardPage from './pages/DashboardPage';
+import PainelControlePage from './pages/PainelControlePage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/redacao/exibir/:id" element={<RedacaoDisplayPage />} />
         <Route path="/redacao/lista" element={<RedacaoListPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/painel-de-controle" element={<PainelControlePage />} />
       </Routes>
     </BrowserRouter>
   );

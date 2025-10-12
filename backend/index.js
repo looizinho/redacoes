@@ -53,30 +53,34 @@ mongoose.connect(mongoUrl, {
 
 // Criar novo usuário
 app.post("/user/new", async (request, reply) => {
-	const {
-		username,
-		age,
-		credenciais: { password },
-		tipo,
-		nome,
-		turmas,
-		redacoes,
-	} = request.body;
-	try {
-		const user = new User({
-			username,
-			age,
-			credenciais: { password },
-			tipo,
-			nome,
-			turmas,
-			redacoes,
-		});
-		const saved = await user.save();
-		reply.code(201).send(saved);
-	} catch (err) {
-		reply.code(500).send({ error: "Erro ao salvar usuário" });
-	}
+  const {
+    username,
+    age,
+    credenciais: { password },
+    tipo,
+    nome,
+    turmas,
+    redacoes,
+  } = request.body;
+  try {
+    const user = new User({
+      username,
+      age,
+      credenciais: { password },
+      tipo,
+      nome,
+      turmas,
+      redacoes,
+    });
+    const saved = await user.save();
+    const sanitized = saved.toObject();
+    if (sanitized?.credenciais) {
+      delete sanitized.credenciais.password;
+    }
+    reply.code(201).send(sanitized);
+  } catch (err) {
+    reply.code(500).send({ error: "Erro ao salvar usuário" });
+  }
 });
 
 // Criar nova redação
@@ -160,12 +164,12 @@ app.put("/redacao/:id", async (request, reply) => {
 
 // Listar usuários
 app.get("/users", async (request, reply) => {
-	try {
-		const users = await User.find();
-		reply.send(users);
-	} catch (err) {
-		reply.code(500).send({ error: "Erro ao buscar usuários" });
-	}
+  try {
+    const users = await User.find().select("-credenciais.password");
+    reply.send(users);
+  } catch (err) {
+    reply.code(500).send({ error: "Erro ao buscar usuários" });
+  }
 });
 
 // Listar redações

@@ -74,7 +74,11 @@ app.post("/user/new", async (request, reply) => {
       redacoes,
     });
     const saved = await user.save();
-    reply.code(201).send(saved);
+    const sanitized = saved.toObject();
+    if (sanitized?.credenciais) {
+      delete sanitized.credenciais.password;
+    }
+    reply.code(201).send(sanitized);
   } catch (err) {
     reply.code(500).send({ error: "Erro ao salvar usuário" });
   }
@@ -154,7 +158,7 @@ app.put("/redacao/:id", async (request, reply) => {
 // Listar usuários
 app.get("/users", async (request, reply) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select("-credenciais.password");
     reply.send(users);
   } catch (err) {
     reply.code(500).send({ error: "Erro ao buscar usuários" });

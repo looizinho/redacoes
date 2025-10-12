@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-
-const { Schema, model, Types } = mongoose;
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -27,6 +26,23 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed,
     default: {},
   },
+});
+
+UserSchema.pre('save', async function hashPassword(next) {
+  const password = this?.credenciais?.password;
+
+  if (!password || !this.isModified('credenciais.password')) {
+    next();
+    return;
+  }
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.credenciais.password = await bcrypt.hash(password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default mongoose.model('User', UserSchema);

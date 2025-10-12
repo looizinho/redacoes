@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './RedacaoPage.css';
 import { apiRequest } from '../services/api';
@@ -35,6 +35,12 @@ function RedacaoPage({ mode = 'create' }) {
   const [currentUser, setCurrentUser] = useState(() => readCurrentUser());
   const [isReady, setIsReady] = useState(false);
   const [message, setMessage] = useState('');
+  const [feedbackModal, setFeedbackModal] = useState({
+    open: false,
+    title: '',
+    description: '',
+    tone: 'info',
+  });
   const [saving, setSaving] = useState(false);
   const [loadingExisting, setLoadingExisting] = useState(isEditMode);
   const [initialDataReady, setInitialDataReady] = useState(!isEditMode);
@@ -50,6 +56,19 @@ function RedacaoPage({ mode = 'create' }) {
     const { name, value } = event.target;
     setMetadata((prev) => ({ ...prev, [name]: value }));
   };
+
+  const closeFeedbackModal = useCallback(() => {
+    setFeedbackModal((prev) => ({ ...prev, open: false }));
+  }, []);
+
+  const openFeedbackModal = useCallback(({ title, description, tone = 'info' }) => {
+    setFeedbackModal({
+      open: true,
+      title: title ?? '',
+      description: description ?? '',
+      tone,
+    });
+  }, []);
 
   const sanitizePayload = (input) =>
     Object.fromEntries(
@@ -581,24 +600,54 @@ function RedacaoPage({ mode = 'create' }) {
     };
   }, [initialDataReady, initialEditorData, isEditMode]);
 
+  useEffect(() => {
+    if (!feedbackModal.open) {
+      return;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeFeedbackModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [feedbackModal.open, closeFeedbackModal]);
+
   const handleSave = async () => {
     if (!editorRef.current) {
       return;
     }
 
     if (!currentUser?._id) {
-      setMessage('Faça login para enviar a redação.');
+      openFeedbackModal({
+        title: 'Sessão necessária',
+        description: 'Faça login para enviar a redação.',
+        tone: 'error',
+      });
       return;
     }
 
     if (isEditMode) {
       if (!redacaoId) {
-        setMessage('Redação não encontrada. Volte para a lista e selecione novamente.');
+        openFeedbackModal({
+          title: 'Redação indisponível',
+          description: 'Redação não encontrada. Volte para a lista e selecione novamente.',
+          tone: 'error',
+        });
         return;
       }
 
       if (!initialDataReady || loadingExisting) {
-        setMessage('Aguarde carregar os dados da redação antes de salvar.');
+        openFeedbackModal({
+          title: 'Aguarde o carregamento',
+          description: 'Aguarde carregar os dados da redação antes de salvar.',
+          tone: 'info',
+        });
         return;
       }
     }
@@ -636,7 +685,11 @@ function RedacaoPage({ mode = 'create' }) {
       console.info('Redação registrada', response);
 
       if (isEditMode) {
-        setMessage('Redação atualizada com sucesso.');
+        openFeedbackModal({
+          title: 'Redação atualizada',
+          description: 'Redação atualizada com sucesso.',
+          tone: 'success',
+        });
 
         if (response) {
           setMetadata((prev) => ({
@@ -654,11 +707,21 @@ function RedacaoPage({ mode = 'create' }) {
           }
         }
       } else {
-        setMessage('Redação enviada ao servidor com sucesso.');
+        openFeedbackModal({
+          title: 'Redação enviada',
+          description: 'Redação enviada ao servidor com sucesso.',
+          tone: 'success',
+        });
       }
     } catch (error) {
       console.error('Falha ao salvar a redação', error);
-      setMessage(isEditMode ? 'Não foi possível atualizar a redação. Tente novamente.' : 'Não foi possível enviar a redação. Tente novamente.');
+      openFeedbackModal({
+        title: isEditMode ? 'Falha ao atualizar' : 'Falha ao enviar',
+        description: isEditMode
+          ? 'Não foi possível atualizar a redação. Tente novamente.'
+          : 'Não foi possível enviar a redação. Tente novamente.',
+        tone: 'error',
+      });
     } finally {
       setSaving(false);
     }
@@ -771,6 +834,47 @@ function RedacaoPage({ mode = 'create' }) {
           {!isReady && !message && <p className="editor-loading">Carregando editor…</p>}
         </section>
       </main>
+
+      {feedbackModal.open && (
+        <div
+          className="editor-modal-overlay"
+          role="presentation"
+          onClick={closeFeedbackModal}
+        >
+          <div
+            className={`editor-modal editor-modal--${feedbackModal.tone}`}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="editor-feedback-title"
+            aria-describedby={feedbackModal.description ? 'editor-feedback-description' : undefined}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="editor-modal__header">
+              <h2 id="editor-feedback-title" className="editor-modal__title">
+                {feedbackModal.title || 'Aviso'}
+              </h2>
+              <button
+                type="button"
+                className="editor-modal__close"
+                onClick={closeFeedbackModal}
+                aria-label="Fechar mensagem"
+              >
+                ×
+              </button>
+            </div>
+            {feedbackModal.description && (
+              <p id="editor-feedback-description" className="editor-modal__body">
+                {feedbackModal.description}
+              </p>
+            )}
+            <div className="editor-modal__actions">
+              <button type="button" className="editor-modal__button" onClick={closeFeedbackModal}>
+                Entendi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -25,3 +25,11 @@ yarn-error.log*
 # agents
 GEMINI.md
 AGENTS.md
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/

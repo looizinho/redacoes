@@ -130,6 +130,28 @@ function PainelControlePage() {
           </Link>
         </section>
 
+        <section className="painel-controle-section">
+          <h2>Painéis institucionais</h2>
+          <p>
+            Acesse as áreas administrativas de cada perfil para gerenciar cadastros, designações e o fluxo de correções de
+            toda a rede.
+          </p>
+          <div className="painel-controle-grid">
+            <Link className="painel-controle-card" to="/painel/administrador">
+              <h3>Painel do administrador</h3>
+              <p>Cadastre usuários, organize turmas e acompanhe indicadores gerais da plataforma.</p>
+            </Link>
+            <Link className="painel-controle-card" to="/painel/coordenador">
+              <h3>Painel do coordenador</h3>
+              <p>Matricule alunos, distribua professores e monitore a produtividade das turmas.</p>
+            </Link>
+            <Link className="painel-controle-card" to="/painel/professor">
+              <h3>Painel do professor</h3>
+              <p>Organize correções, publique posts para as turmas e acompanhe os alunos designados.</p>
+            </Link>
+          </div>
+        </section>
+
         <section className="painel-controle-section painel-controle-section--secondary">
           <h2>Próximos passos</h2>
           <ul>
